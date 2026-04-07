@@ -5,6 +5,7 @@ Architecture patterns for multi-agent systems where AI agents coordinate using t
 ## Installation
 
 ```bash
+/plugin marketplace add 2389-research/claude-plugins
 /plugin install building-multiagent-systems@2389-research
 ```
 
@@ -104,3 +105,9 @@ See [skills/SKILL.md](skills/SKILL.md) for the complete architecture patterns an
 ## Philosophy
 
 Production-ready patterns over improvisation. Every pattern here addresses a real failure mode from a production system.
+
+---
+
+If these patterns helped you build a better multi-agent system, a ⭐ helps us know it's landing.
+
+Built by [2389](https://2389.ai) · Part of the [Claude Code plugin marketplace](https://github.com/2389-research/claude-plugins)
