@@ -1,6 +1,6 @@
 ---
 name: building-multiagent-systems
-description: This skill should be used when designing or implementing systems with multiple AI agents that coordinate to accomplish tasks. Triggers on "multi-agent", "orchestrator", "sub-agent", "coordination", "delegation", "parallel agents", "sequential pipeline", "fan-out", "map-reduce", "spawn agents", "agent hierarchy".
+description: Provides architecture patterns for multi-agent systems — orchestrator/sub-agent design, coordination patterns including MAKER voting, lifecycle management, and production hardening. Use when designing or implementing systems with multiple AI agents: fan-out/fan-in, pipelines, recursive delegation, work-stealing queues, map-reduce, peer councils, zero-error MAKER voting, cascading stop, orphan detection, cost tracking, or checkpointing.
 ---
 
 # Building Multi-Agent, Tool-Using Agentic Systems
@@ -58,7 +58,7 @@ Choose based on discovery question answers:
 | **Work-Stealing Queue** | 1000+ tasks with load balancing | No built-in priority |
 | **Map-Reduce** | Cost optimization | Cheap map ($0.01), smart reduce ($0.15) |
 | **Peer Collaboration** | LLM council for bias reduction | Expensive (3N+1 calls), slow |
-| **MAKER** | Zero-error tasks (100K+ steps) | 5× cost but ~0% error rate |
+| **MAKER** | Zero-error tasks (100K+ steps) | ~0% error rate; ~5 votes per subtask but total cost comparable when using cheap microagents |
 
 See `references/coordination-patterns.md` for detailed implementations.
 
@@ -139,38 +139,15 @@ A pull request orchestrator using Fan-Out/Fan-In:
 
 ## Execution Checklist
 
-When guiding implementation of multi-agent systems:
+Key steps when guiding implementation: ask discovery questions, assess error tolerance (zero → MAKER), establish four-layer architecture, design schema-first tools, define deterministic boundary (no LLM in Layers 3-4), choose orchestration model, select coordination pattern, design tool coordination, implement cascading cleanup, add monitoring and cost tracking, consider self-modification safety.
 
-1. **Ask discovery questions** - Understand requirements before architecting
-2. **Assess error tolerance** - Zero errors → MAKER; some acceptable → simpler patterns
-3. **Establish four-layer architecture** - Reasoning, orchestration, tool bus, adapters
-4. **Design schema-first tools** - Typed contracts before implementation
-5. **Define deterministic boundary** - No LLM in Layers 3-4
-6. **Choose orchestration model** - YOLO, Safety-First, or Hybrid
-7. **Select coordination pattern** - Fan-out, pipeline, delegation, queue, map-reduce, peer, or MAKER
-8. **Design tool coordination** - Permission inheritance, locking, rate limiting
-9. **Implement cascading cleanup** - Always stop children before parent
-10. **Add monitoring and cost tracking** - Hierarchical aggregation across agent tree
-11. **Consider self-modification safety** - If agents can modify code, add safety protocol
+See `references/four-layer-architecture.md` and `references/production-hardening.md` for detailed checklists and implementation guidance.
 
 ## Common Pitfalls
 
-| Pitfall | Impact |
-|---------|--------|
-| Missing four-layer architecture | Untestable, unsafe, hard to debug |
-| LLM calls in tools (Layer 3-4) | Non-deterministic, can't unit test |
-| No schema-first tool design | Sub-agents can't discover tools |
-| Missing cascading stop | Orphaned agents consuming resources |
-| No permission inheritance | Sub-agents can escalate privileges |
-| No timeouts | Indefinite hangs waiting for sub-agents |
-| Unbounded concurrency | Resource exhaustion from too many agents |
-| Ignoring cost tracking | Budget surprises |
-| No partial-failure handling | One failure cascades to all agents |
-| Unpersisted state | Unrecoverable workflows on crash |
-| Uncoordinated tool access | Race conditions on shared resources |
-| Wrong model selection | Cost inefficiency (Sonnet for simple tasks) |
-| Self-modification without safety | Sub-agents break themselves |
-| No heartbeat monitoring | Can't detect orphans after parent crash |
+Common failure modes: missing four-layer architecture, LLM calls in tools (Layers 3-4), missing cascading stop, no permission inheritance, no timeouts, unbounded concurrency, ignoring cost tracking, no partial-failure handling, unpersisted state, uncoordinated tool access, wrong model selection, no heartbeat monitoring.
+
+See `references/production-hardening.md` for mitigations and `references/four-layer-architecture.md` for architectural safeguards.
 
 ## Reference Files
 
