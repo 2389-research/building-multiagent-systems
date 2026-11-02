@@ -20,14 +20,14 @@ This plugin provides comprehensive architecture patterns for multi-agent systems
 **What it does**:
 1. Asks six discovery questions about requirements and constraints
 2. Presents foundational patterns (event-sourcing, hierarchical IDs, state machines)
-3. Recommends coordination pattern (fan-out/fan-in, pipeline, delegation, queue, map-reduce, peer collaboration)
+3. Recommends coordination pattern (fan-out/fan-in, pipeline, delegation, queue, map-reduce, peer collaboration, MAKER)
 4. Guides tool coordination design (permissions, locking, rate limiting, caching)
 5. Enforces cascading cleanup to prevent orphaned agents
 6. Provides production-ready implementation examples
 
 ## Patterns
 
-### Six Coordination Patterns
+### Seven Coordination Patterns
 
 1. **Fan-Out/Fan-In** - Parallel independent work with batching
 2. **Sequential Pipeline** - Multi-stage transformations with checkpointing
@@ -35,6 +35,7 @@ This plugin provides comprehensive architecture patterns for multi-agent systems
 4. **Work-Stealing Queue** - Large batches with load balancing
 5. **Map-Reduce** - Cost optimization with cheap map, smart reduce
 6. **Peer Collaboration** - LLM council for bias reduction
+7. **MAKER** - Zero-error tasks via extreme decomposition, microagents, and multi-agent voting
 
 ### Foundational Patterns
 
